@@ -39,3 +39,10 @@ yarn-error.log*
 
 # Deployment
 .vercel
+/.idea/.gitignore
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/playground-xstate-pattern.iml
+/.idea/prettier.xml
+/.idea/vcs.xml
+/pnpm-lock.yaml
