@@ -21,6 +21,7 @@
     "shiki": "^4.4.3",
     "react-icons": "^5.7.0",
     "lucide-react": "^1.47.0",
+    "@tileryjs/react": "^0.2.0",
     "@statelyai/inspect": "^0.7.2",
     "@xstate/graph": "^3.0.4",
     "@xstate/react": "^6.1.0",
@@ -42,6 +43,8 @@
     "postcss": "^8.5",
     "tailwindcss": "^4.1.9",
     "tw-animate-css": "1.3.3",
-    "prettier": "^3.9.9"
+    "prettier": "^3.9.9",
+    "@typescript-eslint/parser": "^8.70.1",
+    "@typescript-eslint/eslint-plugin": "^8.70.1"
   }
 }
