@@ -12,7 +12,7 @@ export const defaults: any = {
       minSize: 10,
     },
   },
-  theme: {
+  layoutTheme: {
     themeId: "default",
   },
 }

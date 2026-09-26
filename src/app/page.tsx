@@ -1,3 +1,5 @@
+import { ClientOnly } from "@chakra-ui/react"
+
 export default function Page() {
-  return <div>demo</div>
+  return <ClientOnly>demo</ClientOnly>
 }

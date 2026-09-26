@@ -3,12 +3,21 @@ import { Box, ClientOnly, Flex } from "@chakra-ui/react"
 import { Tilery } from "@tileryjs/react"
 import { defaults, currentlayout, currentTheme } from "./_store"
 import { useRef } from "react"
+import { StoriesList } from "./components"
+
+function defaultTabContent(tab: any) {
+  return <div>{tab.id}</div>
+}
+
+const tabComponents = {
+  default: defaultTabContent,
+  storiesList: StoriesList,
+}
 
 export default function Page() {
   const newTabCounterRef = useRef(0)
   const tileryRef = useRef(null)
 
-  console.log("---currentTheme-", currentTheme)
   return (
     <ClientOnly>
       <Flex minW="0" minH="0" flex="1" align="center" justify="center" overflow="hidden">

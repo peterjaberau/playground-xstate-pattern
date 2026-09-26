@@ -1,4 +1,4 @@
-export const dataStories = [
+export const dataStories: any = [
   {
     id: "basic-flow",
     title: "Basic Flow",
@@ -19,25 +19,25 @@ export const dataStories = [
   },
   {
     id: "machine-simulator",
-    name: "Machine Simulator",
+    title: "Machine Simulator",
     type: "application",
     subType: "story",
   },
   {
     id: "raft-consensus",
-    name: "Raft Consensus Machine",
+    title: "Raft Consensus Machine",
     type: "application",
     subType: "story",
   },
   {
     id: "components-library",
-    name: "Components Library",
+    title: "Components Library",
     type: "application",
     subType: "story",
   },
   {
     id: "templates-explorer",
-    name: "Templates Explorer",
+    title: "Templates Explorer",
     type: "application",
     subType: "story",
   },

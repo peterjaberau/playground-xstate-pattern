@@ -1,4 +1,5 @@
-import { Provider } from "./provider"
+import { Provider as ChakraProvider } from "./provider"
+import { RootProvider } from "#providers"
 
 export default function RootLayout({
   children,
@@ -8,7 +9,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning style={{ overflow: "hidden" }}>
       <body>
-        <Provider>{children}</Provider>
+        <RootProvider>
+          <ChakraProvider>{children}</ChakraProvider>
+        </RootProvider>
       </body>
     </html>
   )

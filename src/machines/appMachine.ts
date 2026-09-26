@@ -1,12 +1,12 @@
 import { assign, sendTo, setup, type ActorRefFrom, type AnyActorRef } from "xstate"
-import { storiesMachine, layoutMachine, themeMachine } from "."
+import { storiesMachine, layoutMachine, layoutThemeMachine } from "."
 
 
 export const appMachine = setup({
   actors: {
     stories: storiesMachine,
     layout: layoutMachine,
-    theme: themeMachine,
+    layoutTheme: layoutThemeMachine,
   },
   actions: {},
 }).createMachine({
@@ -14,7 +14,7 @@ export const appMachine = setup({
   context: ({ input, spawn }: any) => ({
     storiesRef: spawn("stories", { name: "stories" }),
     layoutRef: spawn("layout", { name: "layout" }),
-    themeRef: spawn("theme", { name: "theme" }),
+    layoutThemeRef: spawn("layout-theme", { name: "layout-theme" }),
   }),
   on: {},
   states: {},

@@ -11,7 +11,7 @@ export const useAppActor = () => {
   const appRef = useAppActorRef()
   const appState = useSelector(appRef, (state: any) => state)
   const appContext = appState?.context
-  const { storiesRef } = appContext
+  const { storiesRef, layoutRef, layoutThemeRef } = appContext
 
   return {
     appRef,

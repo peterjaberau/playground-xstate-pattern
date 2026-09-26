@@ -1,5 +1,5 @@
 import { assign, sendTo, setup, type ActorRefFrom } from "xstate"
-import { layoutTemplates, themeTemplates } from "#store"
+import { layoutTemplates, layoutThemeTemplates } from "#store"
 
 export const templatesMachine = setup({
   actors: {},
@@ -9,7 +9,7 @@ export const templatesMachine = setup({
   context: ({ spawn }) => ({
     data: {
       layouts: layoutTemplates,
-      themes: themeTemplates,
+      layoutThemes: layoutThemeTemplates,
     },
   }),
   on: {},

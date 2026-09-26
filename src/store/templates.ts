@@ -311,7 +311,7 @@ export const layoutTemplates = [
   },
 ]
 
-export const themeTemplates = [
+export const layoutThemeTemplates = [
   {
     id: "default",
     title: "Default",

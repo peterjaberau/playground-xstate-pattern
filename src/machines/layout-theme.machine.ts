@@ -1,24 +1,25 @@
 import { assign, sendTo, setup, type ActorRefFrom } from "xstate"
 import { defaults } from "#store"
-import { themeTemplates } from "#store"
+import { layoutThemeTemplates } from "#store"
 
-export const themeMachine = setup({
+export const layoutThemeMachine = setup({
   actors: {},
   actions: {
     validateProps: assign(({ context, event }) => {
       const { props } = context
       if (Object.keys(props).length === 0) {
-        context.props = themeTemplates?.find((template) => template?.id === context?.themeId)?.template
+        context.props = layoutThemeTemplates?.find((template) => template?.id === context?.themeId)?.template
       }
     }),
   },
 }).createMachine({
-  id: "theme",
+  id: "layout-theme",
+  initial: "initiating",
   context: ({ input }: any) => ({
-    themeId: input?.themeId || defaults?.theme?.themeId,
+    themeId: input?.themeId || defaults?.layoutTheme?.themeId,
     props: {
       ...input?.props,
-      ...defaults?.theme?.props,
+      ...defaults?.layoutTheme?.props,
     },
     resolved: {},
   }),

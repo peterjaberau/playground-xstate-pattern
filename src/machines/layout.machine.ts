@@ -14,6 +14,7 @@ export const layoutMachine = setup({
   },
 }).createMachine({
   id: "layout",
+  initial: "initiating",
   context: ({ input }: any) => ({
     layoutId: defaults?.layout?.layoutId,
     props: {
