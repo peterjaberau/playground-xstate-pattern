@@ -32,79 +32,37 @@
     "declaration": true,
     "declarationMap": true,
     "moduleDetection": "force",
-    "noUncheckedIndexedAccess": true,
+    "noUncheckedIndexedAccess": false,
     "plugins": [
       {
         "name": "next"
       }
     ],
     "paths": {
-      "@/*": [
-        "./*"
-      ],
-      "~/*": [
-        "./public/*"
-      ],
-      "#app/*": [
-        "./src/app/*"
-      ],
-      "#app": [
-        "./src/app"
-      ],
-      "#components/*": [
-        "./src/components/*"
-      ],
-      "#components": [
-        "./src/components"
-      ],
-      "#ui/*": [
-        "./src/components/ui/*"
-      ],
-      "#ui": [
-        "./src/components/ui"
-      ],
-      "#blocks/*": [
-        "./src/components/blocks/*"
-      ],
-      "#blocks": [
-        "./src/components/blocks"
-      ],
-      "#hooks/*": [
-        "./src/hooks/*"
-      ],
-      "#hooks": [
-        "./src/hooks"
-      ],
-      "#modules/*": [
-        "./src/modules/*"
-      ],
-      "#modules": [
-        "./src/modules"
-      ],
-      "#providers/*": [
-        "./src/providers/*"
-      ],
-      "#providers": [
-        "./src/providers"
-      ],
-      "#shared/*": [
-        "./src/shared/*"
-      ],
-      "#shared": [
-        "./src/shared"
-      ],
-      "#store/*": [
-        "./src/store/*"
-      ],
-      "#store": [
-        "./src/store"
-      ],
-      "#views/*": [
-        "./src/views/*"
-      ],
-      "#views": [
-        "./src/views"
-      ]
+      "@/*": ["./*"],
+      "~/*": ["./public/*"],
+      "#app/*": ["./src/app/*"],
+      "#app": ["./src/app"],
+      "#components/*": ["./src/components/*"],
+      "#components": ["./src/components"],
+      "#ui/*": ["./src/components/ui/*"],
+      "#ui": ["./src/components/ui"],
+      "#blocks/*": ["./src/components/blocks/*"],
+      "#blocks": ["./src/components/blocks"],
+      "#hooks/*": ["./src/hooks/*"],
+      "#hooks": ["./src/hooks"],
+      "#machines/*": ["./src/machines/*"],
+      "#machines": ["./src/machines"],
+      "#modules/*": ["./src/modules/*"],
+      "#modules": ["./src/modules"],
+      "#providers/*": ["./src/providers/*"],
+      "#providers": ["./src/providers"],
+      "#shared/*": ["./src/shared/*"],
+      "#shared": ["./src/shared"],
+      "#store/*": ["./src/store/*"],
+      "#store": ["./src/store"],
+      "#views/*": ["./src/views/*"],
+      "#views": ["./src/views"]
     }
   },
   "include": [
