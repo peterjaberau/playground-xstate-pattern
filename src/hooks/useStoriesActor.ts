@@ -1,11 +1,9 @@
-import { useAppActorRef } from "."
+import { useAppActorRef } from "./useAppActor"
 import { useSelector } from "@xstate/react"
-import { RootContext } from "#providers"
-import type { AnyActorRef } from "xstate"
 
 export const useStoriesActorRef = () => {
   const appRef = useAppActorRef()
-  return appRef.useSelector((state: any) => state.context.storiesRef)
+  return useSelector(appRef, (state: any) => state.context.storiesRef)
 }
 
 export const useStoriesActor = () => {

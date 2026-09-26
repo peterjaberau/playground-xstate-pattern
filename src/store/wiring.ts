@@ -1,11 +1,9 @@
 export const layoutWiringRecipes = [
   {
-    wiringRecipeId: "ide-with-basic-flow",
+    layoutWiringId: "ide-with-basic-flow",
     layoutId: "ide",
-    tab: "explorer",
-    data: [
-      {
-        tab: "explorer",
+    tabs: {
+      explorer: {
         component: "storiesList",
         story: "basic-flow",
         config: {
@@ -13,6 +11,7 @@ export const layoutWiringRecipes = [
           kind: "{{story.application}}",
         },
       },
-    ],
+    },
+
   },
 ]

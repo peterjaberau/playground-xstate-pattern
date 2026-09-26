@@ -19,5 +19,7 @@ export const useAppActor = () => {
     appState,
     appContext,
     storiesRef,
+    layoutRef,
+    layoutThemeRef,
   }
 }

@@ -4,46 +4,12 @@ import type { ColorPalette, DrawerRootProps } from "@chakra-ui/react"
 import {
   Badge,
   Box,
-  Button,
-  Drawer,
   Flex,
-  HStack,
-  Heading,
-  Icon,
-  Input,
-  InputGroup,
-  Portal,
-  Span,
   Text,
   VStack,
   chakra,
 } from "@chakra-ui/react"
-import {
-  LuAtom,
-  LuBaseline,
-  LuBook,
-  LuBookOpen,
-  LuBraces,
-  LuChevronDown,
-  LuChevronRight,
-  LuCode,
-  LuCookingPot,
-  LuExternalLink,
-  LuHeading,
-  LuImage,
-  LuLayoutDashboard,
-  LuList,
-  LuMenu,
-  LuNewspaper,
-  LuPanelRight,
-  LuPanelTop,
-  LuRecycle,
-  LuSearch,
-  LuSlack,
-  LuSquareMousePointer,
-  LuText,
-} from "react-icons/lu"
-import { Fragment } from "react"
+
 
 // block.tsx
 type StoryItemProps = {
@@ -53,7 +19,7 @@ type StoryItemProps = {
   subType?: string
 }
 
-export const StoriesList = (props: StoryItemProps[]) => {
+export const StoriesList = ({ stories }: { stories: StoryItemProps[] }) => {
   return (
     <>
       <Box
@@ -70,8 +36,8 @@ export const StoriesList = (props: StoryItemProps[]) => {
         <Flex direction="column" h="full">
           <Box flex="1" minH="0" overflowY="auto" px="3" pb="6">
             <VStack gap="4" align="stretch">
-              {props.map((item, index) => (
-                <Box key={index}>
+              {stories.map((item) => (
+                <Box key={item.id}>
                   <Flex align="center" h="7" px="3" py="1">
                     <Text fontSize="xs" color="fg.muted" fontWeight="medium" textTransform="uppercase">
                       APPLICATION

@@ -1,14 +1,18 @@
-import { assign, sendTo, setup, type ActorRefFrom } from "xstate"
+import { assign, setup } from "xstate"
 import { defaults } from "#store"
 import { layoutThemeTemplates } from "#store"
 
 export const layoutThemeMachine = setup({
   actors: {},
   actions: {
-    validateProps: assign(({ context, event }) => {
-      const { props } = context
-      if (Object.keys(props).length === 0) {
-        context.props = layoutThemeTemplates?.find((template) => template?.id === context?.themeId)?.template
+    resolveTheme: assign(({ context }) => ({
+      props: context.props ?? layoutThemeTemplates.find((item) => item.id === context.themeId)?.template ?? {},
+    })),
+    selectTheme: assign(({ event }: any) => {
+      const themeId = event.themeId
+      return {
+        themeId,
+        props: event.props ?? layoutThemeTemplates.find((item) => item.id === themeId)?.template ?? {},
       }
     }),
   },
@@ -16,17 +20,15 @@ export const layoutThemeMachine = setup({
   id: "layout-theme",
   initial: "initiating",
   context: ({ input }: any) => ({
-    themeId: input?.themeId || defaults?.layoutTheme?.themeId,
-    props: {
-      ...input?.props,
-      ...defaults?.layoutTheme?.props,
-    },
-    resolved: {},
+    themeId: input?.themeId ?? defaults.layoutTheme.themeId,
+    props: input?.props,
   }),
-  on: {},
+  on: {
+    SELECT_LAYOUT_THEME: { actions: "selectTheme" },
+  },
   states: {
     initiating: {
-      entry: ["validateProps"],
+      entry: ["resolveTheme"],
       always: {
         target: "initiated",
       },

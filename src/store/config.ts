@@ -3,7 +3,7 @@ export const defaults: any = {
     storyId: "basic-flow",
   },
   layout: {
-    layoutId: "default",
+    layoutId: "ide",
     props: {
       resizable: true,
       showActionsButton: true,

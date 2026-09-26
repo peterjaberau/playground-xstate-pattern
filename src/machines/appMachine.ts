@@ -1,5 +1,7 @@
-import { assign, sendTo, setup, type ActorRefFrom, type AnyActorRef } from "xstate"
-import { storiesMachine, layoutMachine, layoutThemeMachine } from "."
+import { sendTo, setup } from "xstate"
+import { storiesMachine } from "./storiesMachine"
+import { layoutMachine } from "./layout.machine"
+import { layoutThemeMachine } from "./layout-theme.machine"
 
 
 export const appMachine = setup({
@@ -14,8 +16,21 @@ export const appMachine = setup({
   context: ({ input, spawn }: any) => ({
     storiesRef: spawn("stories", { name: "stories" }),
     layoutRef: spawn("layout", { name: "layout" }),
-    layoutThemeRef: spawn("layout-theme", { name: "layout-theme" }),
+    layoutThemeRef: spawn("layoutTheme", { name: "layout-theme" }),
   }),
-  on: {},
+  on: {
+    SELECT_LAYOUT: {
+      actions: sendTo(({ context }: any) => context.layoutRef, ({ event }: any) => event),
+    },
+    SELECT_STORY: {
+      actions: [
+        sendTo(({ context }: any) => context.storiesRef, ({ event }: any) => event),
+        sendTo(({ context }: any) => context.layoutRef, ({ event }: any) => event),
+      ],
+    },
+    SELECT_LAYOUT_THEME: {
+      actions: sendTo(({ context }: any) => context.layoutThemeRef, ({ event }: any) => event),
+    },
+  },
   states: {},
 })

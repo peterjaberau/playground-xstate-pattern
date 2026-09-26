@@ -1,12 +1,18 @@
 "use client"
 import { Box, ClientOnly, Flex } from "@chakra-ui/react"
 import { Tilery } from "@tileryjs/react"
-import { defaults, currentlayout, currentTheme } from "./_store"
 import { useRef } from "react"
 import { StoriesList } from "./components"
+import {
+  useLayoutActor,
+  useLayoutThemeActor,
+  useLayoutWiringActor,
+  useStoriesActor,
+  useStoryActor,
+} from "#hooks"
 
-function defaultTabContent(tab: any) {
-  return <div>{tab.id}</div>
+function defaultTabContent({ tab }: { tab: any }) {
+  return <div>{tab.data?.title ?? tab.id}</div>
 }
 
 const tabComponents = {
@@ -14,9 +20,38 @@ const tabComponents = {
   storiesList: StoriesList,
 }
 
+function resolveConfig(value: unknown, story: Record<string, unknown> | null) {
+  if (typeof value === "string") {
+    return value.replace(/{{story\.([^}]+)}}/g, (_, key) => String(story?.[key] ?? ""))
+  }
+
+  if (Array.isArray(value)) return value.map((item) => resolveConfig(item, story))
+
+  if (value && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, item]) => [key, resolveConfig(item, story)]),
+    )
+  }
+
+  return value
+}
+
 export default function Page() {
   const newTabCounterRef = useRef(0)
   const tileryRef = useRef(null)
+  const { initialLayout, layoutProps, layoutId } = useLayoutActor()
+  const { themeProps } = useLayoutThemeActor()
+  const { recipe } = useLayoutWiringActor()
+  const { dataStories } = useStoriesActor()
+  const { story } = useStoryActor()
+
+  const renderTabContent = (tab: any) => {
+    const wiring = recipe?.tabs?.[tab.id]
+    const Component = tabComponents[wiring?.component as keyof typeof tabComponents] ?? tabComponents.default
+    const config = resolveConfig(wiring?.config ?? {}, story)
+
+    return <Component tab={tab} story={story} stories={dataStories} {...config} />
+  }
 
   return (
     <ClientOnly>
@@ -32,10 +67,11 @@ export default function Page() {
           borderWidth="1px"
           borderColor="border"
         >
-          <Box minH="0" minW="0" flex="1" style={currentTheme}>
+          <Box minH="0" minW="0" flex="1" style={themeProps?.style}>
             <Tilery
+              key={layoutId}
               ref={tileryRef}
-              initialLayout={currentlayout}
+              initialLayout={initialLayout}
               onNewTab={(event) => {
                 newTabCounterRef.current += 1
                 console.log({
@@ -55,12 +91,8 @@ export default function Page() {
                 }
               }}
               renderTabHeader={(tab: any) => <span>{tab.data.title}</span>}
-              renderTabContent={(tab: any) => <div>{tab.data.title} content</div>}
-              resizable={true}
-              minSize={10}
-              resizeHandleHitSize={24}
-              showActionsButton={true}
-              showNewTabButton={true}
+              renderTabContent={renderTabContent}
+              {...layoutProps}
             />
           </Box>
         </Flex>

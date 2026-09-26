@@ -1,33 +1,85 @@
-import { assign, sendTo, setup, type ActorRefFrom } from "xstate"
+import { assign, sendTo, setup } from "xstate"
 import { defaults } from "#store"
 import { layoutTemplates } from "#store"
+import { layoutWiringMachine } from "./layout-wiring.machine"
 
 export const layoutMachine = setup({
-  actors: {},
+  actors: {
+    layoutWiring: layoutWiringMachine,
+  },
   actions: {
-    validateProps: assign(({ context, event }) => {
-      const { props } = context
-      if ( !props.initialLayout ) {
-        context.props.initialLayout = layoutTemplates?.find((template) => template?.id === context?.layoutId)?.template.layout
+    resolveLayout: assign(({ context }) => {
+      const template = layoutTemplates.find((item) => item.id === context.layoutId)?.template
+
+      return {
+        initialLayout: context.props.initialLayout ?? template?.initialLayout ?? template?.layout,
       }
-    })
+    }),
+    selectLayout: assign(({ context, event }: any) => {
+      const layoutId = event.layoutId ?? context.layoutId
+      const template = layoutTemplates.find((item) => item.id === layoutId)?.template
+
+      return {
+        layoutId,
+        props: { ...context.props, ...event.props },
+        initialLayout: event.initialLayout ?? template?.initialLayout ?? template?.layout,
+      }
+    }),
+    selectStory: assign(({ context, event }: any) => ({
+      storyId: event.storyId ?? context.storyId,
+    })),
   },
 }).createMachine({
   id: "layout",
   initial: "initiating",
-  context: ({ input }: any) => ({
-    layoutId: defaults?.layout?.layoutId,
+  context: ({ input, spawn }: any) => ({
+    layoutId: input?.layoutId ?? defaults.layout.layoutId,
+    storyId: input?.storyId ?? defaults.story.storyId,
     props: {
+      ...defaults.layout.props,
       ...input?.props,
-      ...defaults?.layout?.props,
     },
-    resolved: {}
-
+    initialLayout: input?.initialLayout,
+    layoutWiringRef: spawn("layoutWiring", {
+      name: "layout-wiring",
+      input: {
+        layoutId: input?.layoutId ?? defaults.layout.layoutId,
+        storyId: input?.storyId ?? defaults.story.storyId,
+      },
+    }),
   }),
-  on: {},
+  on: {
+    SELECT_LAYOUT: {
+      actions: [
+        "selectLayout",
+        sendTo(({ context }: any) => context.layoutWiringRef, ({ context }: any) => ({
+          type: "RESOLVE",
+          layoutId: context.layoutId,
+          storyId: context.storyId,
+        })),
+      ],
+    },
+    SELECT_STORY: {
+      actions: [
+        "selectStory",
+        sendTo(({ context }: any) => context.layoutWiringRef, ({ context }: any) => ({
+          type: "RESOLVE",
+          layoutId: context.layoutId,
+          storyId: context.storyId,
+        })),
+      ],
+    },
+  },
   states: {
     initiating: {
-      entry: ['validateProps'],
+      entry: [
+        "resolveLayout",
+        sendTo(({ context }: any) => context.layoutWiringRef, ({ context }: any) => ({
+          type: "RESOLVE",
+          layoutId: context.layoutId,
+          storyId: context.storyId,
+        })),
+      ],
       always: {
         target: "initiated"
       }

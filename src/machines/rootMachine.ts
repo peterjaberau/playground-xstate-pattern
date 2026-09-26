@@ -1,5 +1,6 @@
-import { assign, sendTo, setup, type ActorRefFrom, type AnyActorRef } from "xstate"
-import { appMachine, templatesMachine } from "."
+import { setup } from "xstate"
+import { appMachine } from "./appMachine"
+import { templatesMachine } from "./templatesMachine"
 export const rootMachine = setup({
   actors: {
     app: appMachine,

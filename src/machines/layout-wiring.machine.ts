@@ -1,35 +1,34 @@
-import { assign, sendTo, setup, type ActorRefFrom } from "xstate"
-import { defaults } from "#store"
-import { layoutThemeTemplates } from "#store"
+import { assign, setup } from "xstate"
+import { layoutWiringRecipes } from "#store"
 
 export const layoutWiringMachine = setup({
   actors: {},
   actions: {
-    validateProps: assign(({ context, event }) => {
-      const { props } = context
-      if (Object.keys(props).length === 0) {
-        context.props = layoutThemeTemplates?.find((template) => template?.id === context?.themeId)?.template
-      }
+    resolveRecipe: assign(({ context, event }: any) => {
+      const layoutId = event.layoutId ?? context.layoutId
+      const storyId = event.storyId ?? context.storyId
+      const recipe = layoutWiringRecipes.find((item) =>
+        item.layoutId === layoutId && Object.values(item.tabs).some((tab: any) => tab.story === storyId),
+      ) ?? null
+
+      return { layoutId, storyId, recipe }
     }),
   },
 }).createMachine({
-  id: "layout-theme",
+  id: "layout-wiring",
   initial: "initiating",
   context: ({ input }: any) => ({
-    themeId: input?.themeId || defaults?.layoutTheme?.themeId,
-    props: {
-      ...input?.props,
-      ...defaults?.layoutTheme?.props,
-    },
-    resolved: {},
+    layoutId: input?.layoutId,
+    storyId: input?.storyId,
+    recipe: null,
   }),
-  on: {},
+  on: {
+    RESOLVE: { actions: "resolveRecipe" },
+  },
   states: {
     initiating: {
-      entry: ["validateProps"],
-      always: {
-        target: "initiated",
-      },
+      entry: "resolveRecipe",
+      always: "initiated",
     },
     initiated: {},
   },

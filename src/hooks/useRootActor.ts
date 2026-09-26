@@ -13,12 +13,12 @@ export const useRootActor = () => {
     sendToRoot: rootRef.send,
     rootRef,
     appRef: rootContext?.appRef,
-    templateRef: rootContext?.templateRef,
+    templatesRef: rootContext?.templatesRef,
     rootState,
     rootContext,
   }
 }
 
 export const useRootActorRef = () => {
-  return RootContext.useSelector((state) => state.context.rootRef)
+  return RootContext.useActorRef()
 }
