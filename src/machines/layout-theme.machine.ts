@@ -2,17 +2,32 @@ import { assign, setup } from "xstate"
 import { defaults } from "#store"
 import { layoutThemeTemplates } from "#store"
 
+const toTileryTheme = (theme: any) => {
+  const style = Object.fromEntries(
+    Object.entries(theme?.style ?? {}).map(([key, value]) => [
+      key.startsWith("--view-") ? key.replace("--view-", "--tilery-") : key,
+      value,
+    ]),
+  )
+
+  return { ...theme, style }
+}
+
 export const layoutThemeMachine = setup({
   actors: {},
   actions: {
     resolveTheme: assign(({ context }) => ({
-      props: context.props ?? layoutThemeTemplates.find((item) => item.id === context.themeId)?.template ?? {},
+      props: toTileryTheme(
+        context.props ?? layoutThemeTemplates.find((item) => item.id === context.themeId)?.template ?? {},
+      ),
     })),
     selectTheme: assign(({ event }: any) => {
       const themeId = event.themeId
       return {
         themeId,
-        props: event.props ?? layoutThemeTemplates.find((item) => item.id === themeId)?.template ?? {},
+        props: toTileryTheme(
+          event.props ?? layoutThemeTemplates.find((item) => item.id === themeId)?.template ?? {},
+        ),
       }
     }),
   },

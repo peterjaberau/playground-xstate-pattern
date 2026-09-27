@@ -3,13 +3,7 @@ import { Box, ClientOnly, Flex } from "@chakra-ui/react"
 import { Tilery } from "@tileryjs/react"
 import { useRef } from "react"
 import { StoriesList } from "./components"
-import {
-  useLayoutActor,
-  useLayoutThemeActor,
-  useLayoutWiringActor,
-  useStoriesActor,
-  useStoryActor,
-} from "#hooks"
+import { useLayoutActor, useLayoutThemeActor, useLayoutWiringActor, useStoriesActor, useStoryActor } from "#hooks"
 
 function defaultTabContent({ tab }: { tab: any }) {
   return <div>{tab.data?.title ?? tab.id}</div>
@@ -20,16 +14,16 @@ const tabComponents = {
   storiesList: StoriesList,
 }
 
-function resolveConfig(value: unknown, story: Record<string, unknown> | null) {
+function resolveConfig(value: any, story: any | null): any {
   if (typeof value === "string") {
     return value.replace(/{{story\.([^}]+)}}/g, (_, key) => String(story?.[key] ?? ""))
   }
 
-  if (Array.isArray(value)) return value.map((item) => resolveConfig(item, story))
+  if (Array.isArray(value)) return value.map((item: any) => resolveConfig(item, story))
 
   if (value && typeof value === "object") {
     return Object.fromEntries(
-      Object.entries(value).map(([key, item]) => [key, resolveConfig(item, story)]),
+      Object.entries(value).map(([key, item]: [string, any]) => [key, resolveConfig(item, story)]),
     )
   }
 

@@ -1,17 +1,7 @@
 "use client"
 
-import type { ColorPalette, DrawerRootProps } from "@chakra-ui/react"
-import {
-  Badge,
-  Box,
-  Flex,
-  Text,
-  VStack,
-  chakra,
-} from "@chakra-ui/react"
+import { Badge, Box, Flex, Text, VStack, chakra, Link, Button } from "@chakra-ui/react"
 
-
-// block.tsx
 type StoryItemProps = {
   id: string
   title: string
@@ -22,112 +12,16 @@ type StoryItemProps = {
 export const StoriesList = ({ stories }: { stories: StoryItemProps[] }) => {
   return (
     <>
-      <Box
-        bg="bg"
-        top="0"
-        left="0"
-        bottom="0"
-        zIndex="20"
-        width="18rem"
-        hideBelow="lg"
-        position="fixed"
-        borderRightWidth="1px"
-      >
-        <Flex direction="column" h="full">
-          <Box flex="1" minH="0" overflowY="auto" px="3" pb="6">
-            <VStack gap="4" align="stretch">
-              {stories.map((item) => (
-                <Box key={item.id}>
-                  <Flex align="center" h="7" px="3" py="1">
-                    <Text fontSize="xs" color="fg.muted" fontWeight="medium" textTransform="uppercase">
-                      APPLICATION
-                    </Text>
-                  </Flex>
-
-                  <VStack gap="0" align="stretch">
-                    <ItemLinkWrapper href="#" variant="filled">
-                      {item.subType && <ItemBadge text={item.subType} />}
-                      <Text flex="1" fontSize="sm">
-                        {item.title}
-                      </Text>
-                    </ItemLinkWrapper>
-                  </VStack>
-                </Box>
-              ))}
-            </VStack>
-          </Box>
-        </Flex>
-      </Box>
+      <Flex direction="column" h="full" bg={"bg"}>
+        <VStack gap="4" align="stretch" py={4}>
+          {stories.map((item) => (
+            <Button variant={"ghost"} textAlign={"left"} key={item.id}>
+              <Badge>{item.subType || "undefined"}</Badge>
+              <Text flex="1">{item.title}</Text>
+            </Button>
+          ))}
+        </VStack>
+      </Flex>
     </>
   )
 }
-
-const ItemBadge = (props: { text: string }) => {
-  const { text } = props
-  return (
-    <Badge size="xs" fontWeight="semibold" variant="subtle">
-      {text}
-    </Badge>
-  )
-}
-
-const ItemLinkWrapper = chakra("a", {
-  base: {
-    gap: "3",
-    display: "flex",
-    textStyle: "sm",
-    alignItems: "center",
-    textDecoration: "none",
-    transitionProperty: "color, border-color",
-    transitionDuration: "normal",
-    transitionTimingFunction: "default",
-    focusVisibleRing: "inside",
-    focusRingWidth: "2px",
-    _current: {
-      fontWeight: "medium",
-      color: "colorPalette.fg",
-    },
-  },
-
-  variants: {
-    variant: {
-      minimal: {},
-      filled: {
-        borderRadius: "l2",
-        _hover: {
-          bg: "bg.muted",
-        },
-        _current: {
-          color: { base: "colorPalette.fg", _hover: "colorPalette.fg" },
-          bg: { base: "colorPalette.subtle", _hover: "colorPalette.subtle" },
-        },
-      },
-      line: {
-        borderStartWidth: "1px",
-        borderStartColor: "bg.muted",
-        _hover: {
-          borderStartColor: "bg.emphasized",
-        },
-        _current: {
-          borderStartColor: "colorPalette.fg!",
-        },
-      },
-    },
-
-    size: {
-      sm: {
-        px: "2",
-        py: "1",
-      },
-      md: {
-        px: "4",
-        py: "1.5",
-      },
-    },
-  },
-
-  defaultVariants: {
-    variant: "minimal",
-    size: "md",
-  },
-})
