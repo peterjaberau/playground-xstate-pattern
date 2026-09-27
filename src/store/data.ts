@@ -4,6 +4,7 @@ export const dataStories: any = [
     title: "Basic Flow",
     type: "application",
     subType: "story",
+
   },
   {
     id: "machine-inspector",

@@ -445,3 +445,79 @@ export const layoutThemeTemplates = [
 ]
 
 
+export const widgetTemplates = [
+  {
+    name: "Stories List",
+    title: "Stories List",
+    type: "widget",
+    subType: "StoriesListWidget",
+    idPrefix: "storiesList",
+    template: {
+      data: [
+        {
+          value: "story 1",
+          label: "",
+          badge: "story",
+        },
+        {
+          value: "story 2",
+          label: "",
+          badge: "story",
+        },
+        {
+          value: "story 3",
+          label: "",
+          badge: "story",
+        },
+      ],
+      events: [],
+    },
+  },
+  {
+    name: "Dockable Frame",
+    idPrefix: "dockableFrame",
+    type: "DockableFrameWidget",
+
+    subType: "StoriesListWidget",
+    template: {
+      data: [
+        {
+          value: "story 1",
+          label: "",
+          badge: "story",
+        },
+        {
+          value: "story 2",
+          label: "",
+          badge: "story",
+        },
+        {
+          value: "story 3",
+          label: "",
+          badge: "story",
+        },
+      ],
+      events: [],
+    },
+  },
+]
+
+export const pluginTemplates = [
+  {
+    name: "$main",
+    type: "frame",
+    subtype: "Frame",
+    template: {
+      type: "main",
+    },
+  },
+  {
+    id: "Main",
+    type: "frame",
+    subtype: "Frame",
+    template: {
+      type: "main",
+    },
+  },
+]
+
